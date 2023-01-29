@@ -1,23 +1,37 @@
-import customtkinter
+import time
 import tkinter
-customtkinter.set_appearance_mode("dark")
+import customtkinter
 
-class App(customtkinter.CTk):
-    def __init__(self):
-        super().__init__()
+customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
+customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
-        self.title("minimal example app")
-        self.minsize(400, 300)
+app = customtkinter.CTk()  # create CTk window like you do with the Tk window
+app.geometry("400x240")
+my_font = customtkinter.CTkFont(size=56)
+hour = 59
+minutes = 60
+def clock():
+    global hour 
+    global minutes
+    if (minutes == 0):
+        hour = hour  - 1
+        minutes = 60
+    minutes = minutes - 1
+    label.configure(text= str(hour) + ":" + str(minutes))
+    label.after(1000, clock)
+    if (hour == 0):
+        label.configure(text = "Focus is over")
 
-        self.button = customtkinter.CTkButton(master=self, command=self.button_callback)
-        self.button.pack(padx=20, pady=20)
-        label = customtkinter.CTkLabel(master= app, text="CTkLabel")
-        label.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
-
-    def button_callback(self):
-        print("button pressed")
+label = customtkinter.CTkLabel(master=app, text="",font=my_font)
+label.place(relx=0.5, rely=0.3, anchor=tkinter.CENTER)
+label.pack(pady=40)
 
 
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+
+button = customtkinter.CTkButton(master=app, text="CTkButton", command=clock())
+button.pack(padx=20, pady=10)
+
+clock()
+app.mainloop()
+
+
