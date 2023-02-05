@@ -22,16 +22,22 @@ def clock():
     if (hour == 0):
         label.configure(text = "Focus is over")
 
-label = customtkinter.CTkLabel(master=app, text="",font=my_font)
+def button_event():
+    clock()
+    button.configure(text="Stop Focus",command=stop)
+
+def stop():
+    label.configure(text="60:00",font=my_font)
+    
+
+label = customtkinter.CTkLabel(master=app, text="60:00",font=my_font)
 label.place(relx=0.5, rely=0.3, anchor=tkinter.CENTER)
 label.pack(pady=40)
 
+button = customtkinter.CTkButton(master=app, text="Start Focus", command=button_event)
 
-
-button = customtkinter.CTkButton(master=app, text="CTkButton", command=clock())
 button.pack(padx=20, pady=10)
 
-clock()
 app.mainloop()
 
 
