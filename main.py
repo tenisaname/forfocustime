@@ -1,11 +1,14 @@
 import time
 import tkinter
 import customtkinter
+import webbrowser
+from win10toast_click import ToastNotifier
 
 customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
 app = customtkinter.CTk()  # create CTk window like you do with the Tk window
+toaster = ToastNotifier()
 app.geometry("400x240")
 my_font = customtkinter.CTkFont(size=56)
 hour = 59
@@ -31,10 +34,27 @@ def stop():
     global running
     running = False
     button.configure(text="Start Focus",command=start)
+    
+page_url = 'https://music.yandex.ru/users/TheChilledCow/playlists/1000'    
+def open_url():
+    try: 
+        webbrowser.open_new(page_url)
+        print('Opening URL...')  
+    except: 
+        print('Failed to open URL. Unsupported variable type.')
+
 def start():
     global running
     running = True
     button_event()
+    toaster.show_toast(
+    "Start Focus", # title
+    "Click to open URL! >>", # message 
+    icon_path=None, # 'icon_path' 
+    duration=5, # for how many seconds toast should be visible; None = leave notification in Notification Center
+    threaded=True, # True = run other code in parallel; False = code execution will wait till notification disappears 
+    callback_on_click=open_url # click notification to run function 
+    )
 
 def restart():
     global hour 
