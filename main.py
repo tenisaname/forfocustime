@@ -24,8 +24,17 @@ def clock():
         minutes = minutes - 1
         label.configure(text= str(hour) + ":" + str(minutes))
         label.after(1000, clock)
-        if (hour == 0):
+        if (hour == 0 or hour < 0):
             label.configure(text = "Focus is over")
+            toaster.show_toast(
+            "Focus is over", # title
+            "Go drink coffee and relax", # message 
+            icon_path=None, # 'icon_path' 
+            duration=5, # for how many seconds toast should be visible; None = leave notification in Notification Center
+            threaded=True, # True = run other code in parallel; False = code execution will wait till notification disappears 
+            callback_on_click=open_url # click notification to run function 
+            )
+
 
 def button_event():
     clock()
@@ -44,14 +53,7 @@ def open_url():
     except: 
         print('Failed to open URL. Unsupported variable type.')
 
-def emoji():
-    e = datetime.datetime.now()
-    if(e < "10" or e > "6"):
-        return "🌇"
-    print(e)
 
-emoji()
-    
 
 def start():
     global running
@@ -60,7 +62,7 @@ def start():
     toaster.show_toast(
     "Start Focus", # title
     "Click to open playlist", # message 
-    icon_path=emoji, # 'icon_path' 
+    icon_path=None, # 'icon_path' 
     duration=5, # for how many seconds toast should be visible; None = leave notification in Notification Center
     threaded=True, # True = run other code in parallel; False = code execution will wait till notification disappears 
     callback_on_click=open_url # click notification to run function 
